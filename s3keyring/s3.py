@@ -23,6 +23,11 @@ from keyring.errors import (PasswordDeleteError)
 from s3keyring.config import Config
 from s3keyring.exceptions import ProfileNotFoundError
 
+try:
+    from base64 import encodestring as b64encode, decodestring as b64decode
+except ImportError:
+    from base64 import encodebytes as b64encode, decodebytes as b64decode
+
 LEGAL_CHARS = (
     getattr(string, 'letters', None)     # Python 2.x
     or getattr(string, 'ascii_letters')  # Python 3.x
@@ -231,7 +236,7 @@ class S3Keyring(S3Backed, KeyringBackend):
                 prefix=prefix, bucket=self.bucket.name)
             raise PasswordGetError(msg)
         pwd_base64 = values[0].get()['Body'].read()
-        pwd = base64.decodestring(pwd_base64)
+        pwd = b64decode(pwd_base64)
         return pwd.decode('utf-8')
 
     def set_value(self, *args, **kwargs):
@@ -244,7 +249,7 @@ class S3Keyring(S3Backed, KeyringBackend):
         service = _escape_for_s3(service)
         username = _escape_for_s3(username)
 
-        pwd_base64 = base64.encodestring(password.encode('utf-8')).decode()
+        pwd_base64 = b64encode(password.encode('utf-8')).decode()
 
         # Save in S3 using both server and client side encryption
         keyname = self._get_s3_key(service, username)
