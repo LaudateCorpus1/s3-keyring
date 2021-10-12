@@ -330,7 +330,11 @@ class S3Keyring(S3Backed, KeyringBackend):
             username = key_data[2]
 
             # Fetch the secret
-            password = self.get_password(service, username)
+            try:
+                password = self.get_password(service, username)
+            except Exception as e:
+                print(f'Failed to add key "{obj.key}" to cache:')
+                print(e)
 
             # Add to the cache
             cache[service][username] = password
