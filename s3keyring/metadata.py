@@ -8,11 +8,11 @@ Information describing the project.
 package = 's3keyring'
 project = "S3 backend for the keyring module"
 project_no_spaces = project.replace(' ', '')
-version = '0.8.0.post1'
+version = '0.8.0.post2'
 description = 'Keeps your secrets safe in S3'
-authors = ['German Gomez-Herrero']
+authors = ['German Gomez-Herrero', 'Adroll']
 authors_string = ', '.join(authors)
-emails = ['german@innovativetravel.eu']
+emails = ['']
 license = 'MIT'
 copyright = '2015 ' + authors_string
-url = 'http://github.com/InnovativeTravel/s3-keyring'
+url = 'https://github.com/AdRoll/s3-keyring'
